@@ -17,17 +17,17 @@ class SignUpActivity : AppCompatActivity() {
         val intent = Intent(this,SignInActivity::class.java)
 
 
-        binding.btnComplete.setOnClickListener {
+        binding.btnSignupComplete.setOnClickListener {
 
-            if(binding.etSignId.length() in 6..10 && binding.etSignPw.length() in 8..12
-                &&binding.etSignName.text.isNotEmpty()&&binding.etSignSpecialty.text.isNotEmpty()){
+            if(binding.etSignupId.length() in 6..10 && binding.etSignupPw.length() in 8..12
+                &&binding.etSignupName.text.isNotEmpty()&&binding.etSignupSpecialty.text.isNotEmpty()){
 
                 Snackbar.make(binding.root,"회원가입이 완료되었습니다.",Snackbar.LENGTH_SHORT).show()
 
-                intent.putExtra("id",binding.etSignId.text.toString())
-                intent.putExtra("pw",binding.etSignPw.text.toString())
-                intent.putExtra("name",binding.etSignName.text.toString())
-                intent.putExtra("specialty",binding.etSignSpecialty.text.toString())
+                intent.putExtra("id",binding.etSignupId.text.toString())
+                intent.putExtra("pw",binding.etSignupPw.text.toString())
+                intent.putExtra("name",binding.etSignupName.text.toString())
+                intent.putExtra("specialty",binding.etSignupSpecialty.text.toString())
                 setResult(RESULT_OK,intent)
                 finish()
             }

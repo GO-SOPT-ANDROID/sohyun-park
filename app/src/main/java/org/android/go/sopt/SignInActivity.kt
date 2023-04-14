@@ -7,58 +7,63 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
-import org.android.go.sopt.databinding.ActivityMainBinding
+import org.android.go.sopt.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
-    lateinit var binding:ActivityMainBinding
+    private lateinit var binding: ActivitySignInBinding
+    private lateinit var id: String
+    private lateinit var pw: String
+    private lateinit var name: String
+    private lateinit var specialty: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lateinit var id:String
-        lateinit var pw:String
-        lateinit var name:String
-        lateinit var specialty:String
+        signIn()
+        signUp()
 
-        val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-                result ->
-                if(result.resultCode == Activity.RESULT_OK){
-                    id = result.data?.getStringExtra("id")?:""
-                    pw = result.data?.getStringExtra("pw")?:""
-                    name = result.data?.getStringExtra("name")?:""
-                    specialty = result.data?.getStringExtra("specialty")?:""
+    }
+
+
+    private fun signIn() {
+
+        val resultLauncher: ActivityResultLauncher<Intent> =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    id = result.data?.getStringExtra("id") ?: ""
+                    pw = result.data?.getStringExtra("pw") ?: ""
+                    name = result.data?.getStringExtra("name") ?: ""
+                    specialty = result.data?.getStringExtra("specialty") ?: ""
                 }
             }
 
-
-        binding.btnSignup.setOnClickListener {
+        binding.btnSigninSignup.setOnClickListener {
 
             val intent = Intent(this, SignUpActivity::class.java)
             resultLauncher.launch(intent)
 
         }
+    }
 
-        binding.btnLogin.setOnClickListener {
+    private fun signUp() {
+        binding.btnSigninLogin.setOnClickListener {
 
-            if(binding.etId.text.toString()==id && binding.etPw.text.toString()==pw){
+            if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
 
-                val intent = Intent(this,MypageActivity::class.java)
+                val intent = Intent(this, MypageActivity::class.java)
 
-                Snackbar.make(binding.root,"로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
-                intent.putExtra("name",name)
-                intent.putExtra("specialty",specialty)
+                Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
+                intent.putExtra("name", name)
+                intent.putExtra("specialty", specialty)
                 startActivity(intent)
-            }
-            else{
-
-                Snackbar.make(binding.root,"로그인에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+            } else {
+                Snackbar.make(binding.root, "로그인에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
             }
 
         }
 
-
     }
-
-
+    
 }
