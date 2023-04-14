@@ -52,7 +52,7 @@ class SignInActivity : AppCompatActivity() {
 
             if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
 
-                val intent = Intent(this, MypageActivity::class.java)
+                val intent = Intent(this, MyPageActivity::class.java)
 
                 Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
                 intent.putExtra("name", name)
