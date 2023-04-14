@@ -21,7 +21,7 @@ class SignInActivity : AppCompatActivity() {
         lateinit var name:String
         lateinit var specialty:String
 
-        var resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
                 result ->
                 if(result.resultCode == Activity.RESULT_OK){
                     id = result.data?.getStringExtra("id")?:""
@@ -59,4 +59,6 @@ class SignInActivity : AppCompatActivity() {
 
 
     }
+
+
 }
