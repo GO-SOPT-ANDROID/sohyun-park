@@ -7,14 +7,14 @@ import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignUpBinding
 
 
-class SignUp : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this,SignInActivity::class.java)
 
 
         binding.btnComplete.setOnClickListener {

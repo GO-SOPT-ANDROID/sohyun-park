@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSignup.setOnClickListener {
 
-            val intent = Intent(this, SignUp::class.java)
+            val intent = Intent(this, SignUpActivity::class.java)
             resultLauncher.launch(intent)
 
         }
