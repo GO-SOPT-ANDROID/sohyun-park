@@ -1,8 +1,10 @@
 package org.android.go.sopt
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignUpBinding
 
@@ -15,6 +17,10 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         signUpComplete()
+
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
 
     }
 
@@ -43,6 +49,19 @@ class SignUpActivity : AppCompatActivity() {
 
         }
 
+    }
+
+
+    private fun hideKeyboard() {
+        if (this != null && this.currentFocus != null) {
+
+            val inputManager: InputMethodManager =
+                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                this.currentFocus?.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
 
 
