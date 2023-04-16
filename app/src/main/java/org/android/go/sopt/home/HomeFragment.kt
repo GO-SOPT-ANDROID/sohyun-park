@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import org.android.go.sopt.R
 import org.android.go.sopt.databinding.FragmentHomeBinding
 import org.android.go.sopt.home.adapter.RepoAdapter
 import org.android.go.sopt.home.data.Repo
+
 
 class HomeFragment : Fragment() {
 
@@ -16,29 +19,33 @@ class HomeFragment : Fragment() {
     private val binding: FragmentHomeBinding
         get() = requireNotNull(_binding) { "앗! _binding이 null이다 !" }
 
-    private val mockRepoList = listOf<Repo>(
-        Repo(
-            image = R.drawable.github,
-            name = "CatchMe",
-            author = "Sohyun-Park"
-        ),
-        Repo(
-            image = R.drawable.github,
-            name = "FILL-IN",
-            author = "Sohyun-Park"
-        ),
-        Repo(
-            image = R.drawable.github,
-            name = "Hacker",
-            author = "Sohyun-Park"
-        ),
-        Repo(
-            image = R.drawable.github,
-            name = "BeMe",
-            author = "Sohyun-Park"
-        )
+    private val viewModel by viewModels<HomeViewModel>()
 
-    )
+    class HomeViewModel : ViewModel() {
+        val mockRepoList = listOf<Repo>(
+            Repo(
+                image = R.drawable.github,
+                name = "CatchMe",
+                author = "Sohyun-Park"
+            ),
+            Repo(
+                image = R.drawable.github,
+                name = "FILL-IN",
+                author = "Sohyun-Park"
+            ),
+            Repo(
+                image = R.drawable.github,
+                name = "Hacker",
+                author = "Sohyun-Park"
+            ),
+            Repo(
+                image = R.drawable.github,
+                name = "BeMe",
+                author = "Sohyun-Park"
+            )
+        )
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +59,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = RepoAdapter(requireContext())
-        binding.rvHomeRepos.adapter=adapter
-        adapter.setRepoList(mockRepoList)
+        binding.rvHomeRepos.adapter = adapter
+        adapter.setRepoList(viewModel.mockRepoList)
     }
 
     override fun onDestroyView() {
