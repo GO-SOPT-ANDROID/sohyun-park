@@ -2,6 +2,10 @@
 
 ## 과제 링크 제출란
 
+### [Activity 생명주기 알아보기 / EditText의 inputType 속성](https://www.notion.so/week1-ee29607c3e14447cb9b67f22c5397007?pvs=4)
+
+
+
 ## 템플릿 설명
 레포지터리에는 총 2개의 브랜치가 있습니다.
 ### main

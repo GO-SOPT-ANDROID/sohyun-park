@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MypageActivity">
+    tools:context=".MyPageActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_mypage_main"
         android:layout_width="100dp"
         android:layout_height="0dp"
         android:layout_marginBottom="250dp"
@@ -23,17 +23,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="이름"
+        tools:text="이름"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_mypage_main" />
 
     <TextView
         android:id="@+id/tv_mypage_specialty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="특기"
+        tools:text="특기"
         app:layout_constraintEnd_toEndOf="@+id/tv_mypage_name"
         app:layout_constraintStart_toStartOf="@+id/tv_mypage_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_mypage_name" />
