@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.android.go.sopt.databinding.ItemGithubRepoBinding
 import org.android.go.sopt.home.data.Repo
 
-class RepoAdapter(context: Context) : RecyclerView.Adapter<RepoAdapter.RepoViewHolder>() {
+class RepoItemAdapter(context: Context) : RecyclerView.Adapter<RepoItemAdapter.RepoViewHolder>() {
     private val inflater by lazy { LayoutInflater.from(context) }
     private var repoList: List<Repo> = emptyList()
 

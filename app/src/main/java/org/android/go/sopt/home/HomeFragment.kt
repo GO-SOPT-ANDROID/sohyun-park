@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.ConcatAdapter
 import org.android.go.sopt.R
 import org.android.go.sopt.databinding.FragmentHomeBinding
-import org.android.go.sopt.home.adapter.RepoAdapter
+import org.android.go.sopt.home.adapter.RepoItemAdapter
+import org.android.go.sopt.home.adapter.RepoHeaderAdapter
 import org.android.go.sopt.home.data.Repo
 
 
@@ -42,7 +44,24 @@ class HomeFragment : Fragment() {
                 image = R.drawable.github,
                 name = "BeMe",
                 author = "Sohyun-Park"
+            ),
+            Repo(
+                image = R.drawable.github,
+                name = "BeMe",
+                author = "Sohyun-Park"
+            ),
+            Repo(
+                image = R.drawable.github,
+                name = "BeMe",
+                author = "Sohyun-Park"
+            ),
+            Repo(
+                image = R.drawable.github,
+                name = "BeMe",
+                author = "Sohyun-Park"
             )
+
+
         )
     }
 
@@ -58,14 +77,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = RepoAdapter(requireContext())
-        binding.rvHomeRepos.adapter = adapter
-        adapter.setRepoList(viewModel.mockRepoList)
+        val repoItemAdapter = RepoItemAdapter(requireContext())
+        val repoHeaderAdpater = RepoHeaderAdapter(requireContext())
+        setAdapter(repoHeaderAdpater, repoItemAdapter)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun setAdapter(headerAdapter: RepoHeaderAdapter, itemAdapter: RepoItemAdapter) {
+        binding.rvHomeRepos.adapter = ConcatAdapter(headerAdapter, itemAdapter)
+        itemAdapter.setRepoList(viewModel.mockRepoList)
     }
 
 }
