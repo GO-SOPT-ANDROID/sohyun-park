@@ -87,9 +87,15 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    fun setAdapter(headerAdapter: RepoHeaderAdapter, itemAdapter: RepoItemAdapter) {
+    private fun setAdapter(headerAdapter: RepoHeaderAdapter, itemAdapter: RepoItemAdapter) {
         binding.rvHomeRepos.adapter = ConcatAdapter(headerAdapter, itemAdapter)
         itemAdapter.setRepoList(viewModel.mockRepoList)
     }
+
+    fun scrollToTop(){
+        binding.rvHomeRepos.smoothScrollToPosition(0)
+    }
+
+
 
 }

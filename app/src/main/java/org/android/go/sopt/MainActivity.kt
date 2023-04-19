@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         startFragment(HomeFragment())
         clickNavigationItem()
+        scrollToTop()
     }
 
 
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fcv_main, fragment)
@@ -50,5 +53,22 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.fcv_main, fragment)
             .commit()
     }
+
+    private fun scrollToTop() {
+        binding.bnvMain.setOnItemReselectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_home -> {
+                    (supportFragmentManager.findFragmentById(R.id.fcv_main) as? HomeFragment)?.scrollToTop()
+                }
+                else ->{
+                    return@setOnItemReselectedListener
+                }
+            }
+        }
+    }
+
+
+
+
 
 }
