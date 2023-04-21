@@ -23,48 +23,6 @@ class HomeFragment : Fragment() {
 
     private val viewModel by viewModels<HomeViewModel>()
 
-    class HomeViewModel : ViewModel() {
-        val mockRepoList = listOf<Repo>(
-            Repo(
-                image = R.drawable.github,
-                name = "CatchMe",
-                author = "Sohyun-Park"
-            ),
-            Repo(
-                image = R.drawable.github,
-                name = "FILL-IN",
-                author = "Sohyun-Park"
-            ),
-            Repo(
-                image = R.drawable.github,
-                name = "Hacker",
-                author = "Sohyun-Park"
-            ),
-            Repo(
-                image = R.drawable.github,
-                name = "BeMe",
-                author = "Sohyun-Park"
-            ),
-            Repo(
-                image = R.drawable.github,
-                name = "BeMe",
-                author = "Sohyun-Park"
-            ),
-            Repo(
-                image = R.drawable.github,
-                name = "BeMe",
-                author = "Sohyun-Park"
-            ),
-            Repo(
-                image = R.drawable.github,
-                name = "BeMe",
-                author = "Sohyun-Park"
-            )
-
-
-        )
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,6 +38,7 @@ class HomeFragment : Fragment() {
         val repoItemAdapter = RepoItemAdapter(requireContext())
         val repoHeaderAdpater = RepoHeaderAdapter(requireContext())
         setAdapter(repoHeaderAdpater, repoItemAdapter)
+
     }
 
     override fun onDestroyView() {
@@ -89,13 +48,12 @@ class HomeFragment : Fragment() {
 
     private fun setAdapter(headerAdapter: RepoHeaderAdapter, itemAdapter: RepoItemAdapter) {
         binding.rvHomeRepos.adapter = ConcatAdapter(headerAdapter, itemAdapter)
-        itemAdapter.setRepoList(viewModel.mockRepoList)
+        itemAdapter.submitList(viewModel.mockRepoList)
     }
 
-    fun scrollToTop(){
+    fun scrollToTop() {
         binding.rvHomeRepos.smoothScrollToPosition(0)
     }
-
 
 
 }
