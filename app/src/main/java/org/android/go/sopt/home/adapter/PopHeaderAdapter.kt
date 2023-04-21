@@ -4,17 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.android.go.sopt.databinding.HeaderGithubRepoBinding
+import org.android.go.sopt.databinding.HeaderPopPlaylistBinding
 
-class RepoHeaderAdapter(context: Context) :
-    RecyclerView.Adapter<RepoHeaderAdapter.RepoHeaderViewHolder>() {
+class PopHeaderAdapter(context: Context) :
+    RecyclerView.Adapter<PopHeaderAdapter.RepoHeaderViewHolder>() {
 
-    class RepoHeaderViewHolder(private val binding: HeaderGithubRepoBinding) :
+    class RepoHeaderViewHolder(private val binding: HeaderPopPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoHeaderViewHolder {
         val binding =
-            HeaderGithubRepoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            HeaderPopPlaylistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RepoHeaderViewHolder(binding)
     }
 

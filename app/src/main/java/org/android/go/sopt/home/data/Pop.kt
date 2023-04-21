@@ -2,9 +2,9 @@ package org.android.go.sopt.home.data
 
 import androidx.annotation.DrawableRes
 
-data class Repo(
+data class Pop(
     val id:Int,
     @DrawableRes val image: Int,
-    val name: String,
-    val author: String
+    val title: String,
+    val singer: String
 )

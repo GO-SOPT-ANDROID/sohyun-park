@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ConcatAdapter
-import org.android.go.sopt.R
 import org.android.go.sopt.databinding.FragmentHomeBinding
-import org.android.go.sopt.home.adapter.RepoItemAdapter
-import org.android.go.sopt.home.adapter.RepoHeaderAdapter
-import org.android.go.sopt.home.data.Repo
+import org.android.go.sopt.home.adapter.PopItemAdapter
+import org.android.go.sopt.home.adapter.PopHeaderAdapter
 
 
 class HomeFragment : Fragment() {
@@ -35,9 +32,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val repoItemAdapter = RepoItemAdapter(requireContext())
-        val repoHeaderAdpater = RepoHeaderAdapter(requireContext())
-        setAdapter(repoHeaderAdpater, repoItemAdapter)
+        val popItemAdapter = PopItemAdapter(requireContext())
+        val repoHeaderAdpater = PopHeaderAdapter(requireContext())
+        setAdapter(repoHeaderAdpater, popItemAdapter)
 
     }
 
@@ -46,9 +43,9 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun setAdapter(headerAdapter: RepoHeaderAdapter, itemAdapter: RepoItemAdapter) {
+    private fun setAdapter(headerAdapter: PopHeaderAdapter, itemAdapter: PopItemAdapter) {
         binding.rvHomeRepos.adapter = ConcatAdapter(headerAdapter, itemAdapter)
-        itemAdapter.submitList(viewModel.mockRepoList)
+        itemAdapter.submitList(viewModel.mockPopLists)
     }
 
     fun scrollToTop() {

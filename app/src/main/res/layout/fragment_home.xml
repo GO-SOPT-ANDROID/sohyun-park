@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_github_repo" />
+        tools:listitem="@layout/item_pop_playlist" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fcv_main, fragment)
@@ -50,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fcv_main, fragment)
+            .replace(R.id.fcv_main, fragment)
             .commit()
     }
 
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_home -> {
                     (supportFragmentManager.findFragmentById(R.id.fcv_main) as? HomeFragment)?.scrollToTop()
                 }
-                else ->{
+                else -> {
                     return@setOnItemReselectedListener
                 }
             }

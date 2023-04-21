@@ -6,24 +6,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.android.go.sopt.databinding.ItemGithubRepoBinding
-import org.android.go.sopt.home.data.Repo
+import org.android.go.sopt.databinding.ItemPopPlaylistBinding
+import org.android.go.sopt.home.data.Pop
 
-class RepoItemAdapter(context: Context) :
-    ListAdapter<Repo, RepoItemAdapter.RepoViewHolder>(diffUtil) {
+class PopItemAdapter(context: Context) :
+    ListAdapter<Pop, PopItemAdapter.RepoViewHolder>(diffUtil) {
     private val inflater by lazy { LayoutInflater.from(context) }
 
-    class RepoViewHolder(private val binding: ItemGithubRepoBinding) :
+    class RepoViewHolder(private val binding: ItemPopPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: Repo) {
-            binding.ivGithubRepo.setImageDrawable(binding.root.context.getDrawable(data.image))
-            binding.tvGithubRepoName.text = data.name
-            binding.tvGithubRepoAuthor.text = data.author
+        fun onBind(data: Pop) {
+            binding.ivPopPlaylist.setImageDrawable(binding.root.context.getDrawable(data.image))
+            binding.tvPopPlaylistTitle.text = data.title
+            binding.tvPopPlaylistSinger.text = data.singer
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
-        val binding = ItemGithubRepoBinding.inflate(inflater, parent, false)
+        val binding = ItemPopPlaylistBinding.inflate(inflater, parent, false)
         return RepoViewHolder(binding)
     }
 
@@ -36,12 +36,12 @@ class RepoItemAdapter(context: Context) :
 
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Repo>() {
-            override fun areItemsTheSame(oldItem: Repo, newItem: Repo): Boolean {
+        val diffUtil = object : DiffUtil.ItemCallback<Pop>() {
+            override fun areItemsTheSame(oldItem: Pop, newItem: Pop): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Repo, newItem: Repo): Boolean {
+            override fun areContentsTheSame(oldItem: Pop, newItem: Pop): Boolean {
                 return oldItem == newItem
             }
 
