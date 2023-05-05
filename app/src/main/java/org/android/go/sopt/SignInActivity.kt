@@ -64,10 +64,14 @@ class SignInActivity : AppCompatActivity() {
                 MySharedPreferences.setUserName(this, name)
                 MySharedPreferences.setUserSpeciality(this, specialty)
 
+                val savedName = MySharedPreferences.getUserName(this)
+                val savedSpecialty = MySharedPreferences.getUserSpeciality(this)
 
                 val intent = Intent(this, MainActivity::class.java)
-
                 Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
+
+                intent.putExtra("name", savedName)
+                intent.putExtra("specialty", savedSpecialty)
 
                 startActivity(intent)
             } else {
@@ -126,13 +130,13 @@ object MySharedPreferences {
     fun setUserPw(context: Context, input: String) {
         val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString("MY_PASS", input)
+        editor.putString("MY_PW", input)
         editor.commit()
     }
 
     fun getUserPw(context: Context): String {
         val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        return prefs.getString("MY_PASS", "").toString()
+        return prefs.getString("MY_PW", "").toString()
     }
 
     fun setUserName(context: Context, input: String) {
@@ -157,6 +161,13 @@ object MySharedPreferences {
     fun getUserSpeciality(context: Context): String {
         val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
         return prefs.getString("MY_SPECIALITY", "").toString()
+    }
+
+    fun delete(context: Context) {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.clear()
+        editor.commit()
     }
 
 

@@ -2,6 +2,7 @@ package org.android.go.sopt.home
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,9 +43,9 @@ class MyPageFragment : Fragment() {
 
     private fun setMyPage() {
 
-        //binding.tvMyPageName.text = "이름 : ${MySharedPreferences.getUserName(SignInActivity())}"
-        // binding.tvMyPageSpecialty.text =
-        //"특기 : ${MySharedPreferences.getUserSpeciality(SignInActivity())}"
+        binding.tvMyPageName.text = "이름 : ${requireActivity().intent.getStringExtra("name")}"
+        binding.tvMyPageSpecialty.text =
+            "특기 : ${requireActivity().intent.getStringExtra("specialty")}"
 
     }
 
@@ -55,6 +56,8 @@ class MyPageFragment : Fragment() {
             .setPositiveButton("Yes", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
                     Log.d("MyTag", "positive")
+                    MySharedPreferences.delete(requireContext())
+                    startActivity(Intent(requireContext(), SignInActivity::class.java))
                 }
             })
             .setNegativeButton("NO", object : DialogInterface.OnClickListener {
