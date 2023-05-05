@@ -3,6 +3,7 @@ package org.android.go.sopt
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -10,7 +11,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignInBinding
-import org.android.go.sopt.home.MyPageFragment
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
@@ -24,8 +24,8 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        signIn()
         signUp()
+        autoSignIn()
 
         binding.root.setOnClickListener {
             hideKeyboard()
@@ -59,11 +59,16 @@ class SignInActivity : AppCompatActivity() {
 
             if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
 
-                val intent = Intent(this, MyPageFragment::class.java)
+                MySharedPreferences.setUserId(this, binding.etSigninId.text.toString())
+                MySharedPreferences.setUserPw(this, binding.etSigninPw.text.toString())
+                MySharedPreferences.setUserName(this, name)
+                MySharedPreferences.setUserSpeciality(this, specialty)
+
+
+                val intent = Intent(this, MainActivity::class.java)
 
                 Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
-                intent.putExtra("name", name)
-                intent.putExtra("specialty", specialty)
+
                 startActivity(intent)
             } else {
                 Snackbar.make(binding.root, "로그인에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
@@ -84,5 +89,75 @@ class SignInActivity : AppCompatActivity() {
             )
         }
     }
+
+
+    private fun autoSignIn() {
+        if (MySharedPreferences.getUserId(this).isNullOrBlank()
+            || MySharedPreferences.getUserPw(this).isNullOrBlank()
+        ) {
+            signIn()
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+
+            Snackbar.make(binding.root, "자동 로그인되었습니다.", Snackbar.LENGTH_SHORT).show()
+
+            startActivity(intent)
+            finish()
+        }
+    }
+
+
+}
+
+object MySharedPreferences {
+    private const val myAccount: String = "account"
+    fun setUserId(context: Context, input: String) {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_ID", input)
+        editor.commit()
+    }
+
+    fun getUserId(context: Context): String {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        return prefs.getString("MY_ID", "").toString()
+    }
+
+    fun setUserPw(context: Context, input: String) {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_PASS", input)
+        editor.commit()
+    }
+
+    fun getUserPw(context: Context): String {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        return prefs.getString("MY_PASS", "").toString()
+    }
+
+    fun setUserName(context: Context, input: String) {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_NAME", input)
+        editor.commit()
+    }
+
+    fun getUserName(context: Context): String {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        return prefs.getString("MY_NAME", "").toString()
+    }
+
+    fun setUserSpeciality(context: Context, input: String) {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_SPECIALITY", input)
+        editor.commit()
+    }
+
+    fun getUserSpeciality(context: Context): String {
+        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
+        return prefs.getString("MY_SPECIALITY", "").toString()
+    }
+
 
 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import org.android.go.sopt.MySharedPreferences
+import org.android.go.sopt.SignInActivity
 import org.android.go.sopt.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment() {
@@ -40,9 +42,9 @@ class MyPageFragment : Fragment() {
 
     private fun setMyPage() {
 
-        binding.tvMyPageName.text = "이름 : ${requireActivity().intent.getStringExtra("name")}"
-        binding.tvMyPageSpecialty.text =
-            "특기 : ${requireActivity().intent.getStringExtra("specialty")}"
+        //binding.tvMyPageName.text = "이름 : ${MySharedPreferences.getUserName(SignInActivity())}"
+        // binding.tvMyPageSpecialty.text =
+        //"특기 : ${MySharedPreferences.getUserSpeciality(SignInActivity())}"
 
     }
 
