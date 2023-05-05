@@ -43,9 +43,9 @@ class MyPageFragment : Fragment() {
 
     private fun setMyPage() {
 
-        binding.tvMyPageName.text = "이름 : ${requireActivity().intent.getStringExtra("name")}"
+        binding.tvMyPageName.text = "이름 : ${MySharedPreferences.getUserName(requireContext())}"
         binding.tvMyPageSpecialty.text =
-            "특기 : ${requireActivity().intent.getStringExtra("specialty")}"
+            "특기 : ${MySharedPreferences.getUserSpeciality(requireContext())}"
 
     }
 

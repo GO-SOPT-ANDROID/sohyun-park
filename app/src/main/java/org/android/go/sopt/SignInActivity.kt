@@ -64,14 +64,9 @@ class SignInActivity : AppCompatActivity() {
                 MySharedPreferences.setUserName(this, name)
                 MySharedPreferences.setUserSpeciality(this, specialty)
 
-                val savedName = MySharedPreferences.getUserName(this)
-                val savedSpecialty = MySharedPreferences.getUserSpeciality(this)
-
                 val intent = Intent(this, MainActivity::class.java)
-                Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
 
-                intent.putExtra("name", savedName)
-                intent.putExtra("specialty", savedSpecialty)
+                Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
 
                 startActivity(intent)
             } else {
@@ -109,7 +104,6 @@ class SignInActivity : AppCompatActivity() {
             finish()
         }
     }
-
 
 }
 
