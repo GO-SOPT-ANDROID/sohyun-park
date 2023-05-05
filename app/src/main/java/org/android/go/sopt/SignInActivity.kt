@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
@@ -99,6 +100,7 @@ class SignInActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
 
             Snackbar.make(binding.root, "자동 로그인되었습니다.", Snackbar.LENGTH_SHORT).show()
+            Toast.makeText(this.applicationContext,"자동 로그인되었습니다.",Toast.LENGTH_SHORT).show()
 
             startActivity(intent)
             finish()
