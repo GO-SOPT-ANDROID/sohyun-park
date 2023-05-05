@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignInBinding
+import org.android.go.sopt.home.MyPageFragment
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
@@ -33,7 +34,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
 
-    private fun signIn() {
+    private fun signUp() {
 
         val resultLauncher: ActivityResultLauncher<Intent> =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -53,12 +54,12 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun signUp() {
+    private fun signIn() {
         binding.btnSigninLogin.setOnClickListener {
 
             if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
 
-                val intent = Intent(this, MyPageActivity::class.java)
+                val intent = Intent(this, MyPageFragment::class.java)
 
                 Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
                 intent.putExtra("name", name)
