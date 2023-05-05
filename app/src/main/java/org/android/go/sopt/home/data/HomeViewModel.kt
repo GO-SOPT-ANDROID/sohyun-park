@@ -1,4 +1,4 @@
-package org.android.go.sopt.home
+package org.android.go.sopt.home.data
 
 import androidx.lifecycle.ViewModel
 import org.android.go.sopt.R
