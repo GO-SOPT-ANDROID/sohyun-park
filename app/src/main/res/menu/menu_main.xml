@@ -13,5 +13,9 @@
         android:id="@+id/menu_gallery"
         android:icon="@drawable/ic_gallery"
         android:title="" />
+    <item
+        android:id="@+id/menu_my_page"
+        android:icon="@drawable/ic_my_page"
+        android:title="" />
 
 </menu>
