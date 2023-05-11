@@ -5,7 +5,13 @@ import org.android.go.sopt.R
 import org.android.go.sopt.home.data.Pop
 
 class HomeViewModel : ViewModel() {
-    val mockPopLists = listOf<Pop>(
+    val mockPopLists = listOf(
+        Pop(
+            id = 0,
+            image = R.drawable.ic_music,
+            title = "PLAY LIST",
+            singer = ""
+        ),
         Pop(
             id = 1,
             image = R.drawable.ic_lost_stars,

@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
-import androidx.recyclerview.widget.ConcatAdapter
 import org.android.go.sopt.databinding.FragmentHomeBinding
 import org.android.go.sopt.home.adapter.PopAdapter
 import org.android.go.sopt.home.data.HomeViewModel
@@ -22,9 +21,7 @@ class HomeFragment : Fragment() {
         get() = requireNotNull(_binding) { "앗! _binding is null !" }
 
     private val viewModel by viewModels<HomeViewModel>()
-    private lateinit var popAdapter: PopAdapter
-
-
+    private lateinit var adapter: PopAdapter
 
 
     override fun onCreateView(
@@ -38,21 +35,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        popAdapter = PopAdapter(requireContext())
-        val popHeaderAdapter = PopHeaderAdapter(requireContext())
 
-        setAdapter(popHeaderAdapter, popAdapter)
-        setUpSelectionTracker(popAdapter)
-
-
+        setAdapter()
+        setUpSelectionTracker()
     }
 
-    private fun setUpSelectionTracker(adapter:PopAdapter){
-       val tracker = binding.rvHomePops.let { recyclerView ->
+    private fun setUpSelectionTracker() {
+        val tracker = binding.rvHomePops.let { recyclerView ->
             SelectionTracker.Builder(
                 "mySelection",
                 recyclerView,
-                PopAdapter.RecyclerViewIdKeyProvider(recyclerView),
+                PopAdapter.SelectionItemKeyProvider(recyclerView),
                 PopAdapter.PopDetailsLookUp(recyclerView),
                 StorageStrategy.createLongStorage()
             ).withSelectionPredicate(
@@ -64,13 +57,14 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 
-    private fun setAdapter(headerAdapter: PopHeaderAdapter, itemAdapter: PopAdapter) {
-        binding.rvHomePops.adapter = ConcatAdapter(headerAdapter, itemAdapter)
-        itemAdapter.submitList(viewModel.mockPopLists)
+    private fun setAdapter() {
+        adapter = PopAdapter(requireContext())
+        binding.rvHomePops.adapter = adapter
+        adapter.submitList(viewModel.mockPopLists)
     }
 
     fun scrollToTop() {

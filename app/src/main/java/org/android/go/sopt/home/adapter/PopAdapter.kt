@@ -10,7 +10,7 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import org.android.go.sopt.R
 import org.android.go.sopt.databinding.HeaderPopPlaylistBinding
 import org.android.go.sopt.databinding.ItemPopPlaylistBinding
 import org.android.go.sopt.home.data.Pop
@@ -18,7 +18,6 @@ import org.android.go.sopt.home.data.Pop
 
 class PopAdapter(context: Context) :
     ListAdapter<Pop, RecyclerView.ViewHolder>(diffUtil) {
-    private val inflater by lazy { LayoutInflater.from(context) }
     private lateinit var selectionTracker: SelectionTracker<Long>
 
     init {
@@ -28,13 +27,10 @@ class PopAdapter(context: Context) :
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getItemViewType(position: Int): Int {
-        return if(position==0) HEADER
+        return if (position == 0) HEADER
         else ITEM
     }
 
-    fun setSelectionTracker(selectionTracker: SelectionTracker<Long>) {
-        this.selectionTracker = selectionTracker
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == HEADER) {
@@ -53,24 +49,32 @@ class PopAdapter(context: Context) :
     }
 
 
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       if(position== ITEM){
-           PopItemViewHolder(holder as ItemPopPlaylistBinding).onBind(currentList[position])
-       }else{
-           PopHeaderViewHolder(holder as HeaderPopPlaylistBinding).onBind()
-       }
+        if (position == HEADER) {
+            (holder as PopHeaderViewHolder).run {
+                onBind(currentList[position], selectionTracker)
+            }
+
+        } else {
+            (holder as PopItemViewHolder).run {
+                onBind(currentList[position], selectionTracker)
+            }
+        }
     }
 
 
     class PopItemViewHolder(private val binding: ItemPopPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: Pop, isActivated: Boolean = false,tracker: SelectionTracker<Long>) {
+
+        fun onBind(data: Pop, tracker: SelectionTracker<Long>) {
             binding.ivPopPlaylist.setImageDrawable(binding.root.context.getDrawable(data.image))
             binding.tvPopPlaylistTitle.text = data.title
             binding.tvPopPlaylistSinger.text = data.singer
-            if(tracker.isSelected(bindingAdapterPosition.toLong())){
-                itemView.isActivated = isActivated
+            binding.root.isActivated = tracker.isSelected(itemId)
+            if (tracker.isSelected(bindingAdapterPosition.toLong())) {
+                binding.root.setBackgroundResource(R.color.purple_200)
+            } else {
+                binding.root.setBackgroundResource(R.color.white)
             }
 
         }
@@ -84,10 +88,15 @@ class PopAdapter(context: Context) :
     }
 
     class PopHeaderViewHolder(private val binding: HeaderPopPlaylistBinding) :
-        RecyclerView.ViewHolder(binding.root){
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(tracker: SelectionTracker<Long>){
-            if(tracker.isSelected(bindingAdapterPosition.toLong())){
+        fun onBind(data: Pop, tracker: SelectionTracker<Long>) {
+            binding.ivHeaderIcon.setImageDrawable(binding.root.context.getDrawable(data.image))
+            binding.tvHeaderTitle.text = data.title
+            if (tracker.isSelected(bindingAdapterPosition.toLong())) {
+
+            } else {
+                binding.root.setBackgroundResource(R.color.white)
             }
         }
 
@@ -99,6 +108,37 @@ class PopAdapter(context: Context) :
 
     }
 
+    fun setSelectionTracker(selectionTracker: SelectionTracker<Long>) {
+        this.selectionTracker = selectionTracker
+    }
+
+    class PopDetailsLookUp(private val recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
+        override fun getItemDetails(motionEvent: MotionEvent): ItemDetails<Long>? {
+            val view = recyclerView.findChildViewUnder(motionEvent.x, motionEvent.y) ?: return null
+            val viewHolder = recyclerView.getChildViewHolder(view)
+            return if (viewHolder.itemViewType == HEADER) {
+                (viewHolder as PopHeaderViewHolder).getItemDetails()
+            } else {
+                (viewHolder as PopItemViewHolder).getItemDetails()
+            }
+
+        }
+    }
+
+    class SelectionItemKeyProvider(private val recyclerView: RecyclerView) :
+        ItemKeyProvider<Long>(SCOPE_MAPPED) {
+
+        override fun getKey(position: Int): Long {
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
+            return viewHolder?.itemId ?: RecyclerView.NO_ID
+        }
+
+        override fun getPosition(key: Long): Int {
+            val viewHolder = recyclerView.findViewHolderForItemId(key)
+            return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
+        }
+
+    }
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Pop>() {
@@ -111,36 +151,8 @@ class PopAdapter(context: Context) :
             }
 
         }
-        const val HEADER= 0
+        const val HEADER = 0
         const val ITEM = 1
-    }
-
-    class PopDetailsLookUp(private val recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
-        override fun getItemDetails(motionEvent: MotionEvent): ItemDetails<Long>? {
-            val view = recyclerView.findChildViewUnder(motionEvent.x, motionEvent.y)?:return null
-            val viewHolder=recyclerView.getChildViewHolder(view)
-            return if (viewHolder.itemViewType== HEADER){
-                (viewHolder as PopHeaderViewHolder).getItemDetails()
-            }else{
-                (viewHolder as PopItemViewHolder).getItemDetails()
-            }
-
-        }
-    }
-
-    class RecyclerViewIdKeyProvider(private val recyclerView: RecyclerView) :
-        ItemKeyProvider<Long>(ItemKeyProvider.SCOPE_MAPPED) {
-
-        override fun getKey(position: Int): Long? {
-            return recyclerView.adapter?.getItemId(position)
-                ?: throw IllegalStateException("RecyclerView adapter is not set!")
-        }
-
-        override fun getPosition(key: Long): Int {
-            val viewHolder = recyclerView.findViewHolderForItemId(key)
-            return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
-        }
-
     }
 
 
