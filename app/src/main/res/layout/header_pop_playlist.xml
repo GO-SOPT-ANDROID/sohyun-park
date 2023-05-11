@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/header_pop_playlist"
+        android:textAppearance="?textAppearanceBodyLarge"
         android:textAlignment="viewStart"
         android:textSize="16sp"
         android:textStyle="bold"

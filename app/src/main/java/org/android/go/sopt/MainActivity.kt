@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import org.android.go.sopt.databinding.ActivityMainBinding
 import org.android.go.sopt.home.GalleryFragment
 import org.android.go.sopt.home.HomeFragment
+import org.android.go.sopt.home.MyPageFragment
 import org.android.go.sopt.home.SearchFragment
 
 class MainActivity : AppCompatActivity() {
@@ -31,8 +32,11 @@ class MainActivity : AppCompatActivity() {
                     R.id.menu_gallery -> {
                         GalleryFragment()
                     }
-                    else -> {
+                    R.id.menu_search -> {
                         SearchFragment()
+                    }
+                    else -> {
+                        MyPageFragment()
                     }
                 }
             )
@@ -65,7 +69,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
 }
