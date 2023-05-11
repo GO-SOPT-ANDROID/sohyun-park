@@ -3,7 +3,6 @@ package org.android.go.sopt
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -58,10 +57,16 @@ class SignInActivity : AppCompatActivity() {
 
             if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
 
-                MySharedPreferences.setUserId(this, binding.etSigninId.text.toString())
-                MySharedPreferences.setUserPw(this, binding.etSigninPw.text.toString())
-                MySharedPreferences.setUserName(this, name)
-                MySharedPreferences.setUserSpeciality(this, specialty)
+                SharedPreferences.MySharedPreferences.setUserId(
+                    this,
+                    binding.etSigninId.text.toString()
+                )
+                SharedPreferences.MySharedPreferences.setUserPw(
+                    this,
+                    binding.etSigninPw.text.toString()
+                )
+                SharedPreferences.MySharedPreferences.setUserName(this, name)
+                SharedPreferences.MySharedPreferences.setUserSpeciality(this, specialty)
 
                 val intent = Intent(this, MainActivity::class.java)
 
@@ -90,8 +95,8 @@ class SignInActivity : AppCompatActivity() {
 
 
     private fun autoSignIn() {
-        if (MySharedPreferences.getUserId(this).isNullOrBlank()
-            || MySharedPreferences.getUserPw(this).isNullOrBlank()
+        if (SharedPreferences.MySharedPreferences.getUserId(this).isNullOrBlank()
+            || SharedPreferences.MySharedPreferences.getUserPw(this).isNullOrBlank()
         ) {
             signIn()
         } else {
@@ -106,62 +111,3 @@ class SignInActivity : AppCompatActivity() {
 
 }
 
-object MySharedPreferences {
-    private const val myAccount: String = "account"
-    fun setUserId(context: Context, input: String) {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString("MY_ID", input)
-        editor.commit()
-    }
-
-    fun getUserId(context: Context): String {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        return prefs.getString("MY_ID", "").toString()
-    }
-
-    fun setUserPw(context: Context, input: String) {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString("MY_PW", input)
-        editor.commit()
-    }
-
-    fun getUserPw(context: Context): String {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        return prefs.getString("MY_PW", "").toString()
-    }
-
-    fun setUserName(context: Context, input: String) {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString("MY_NAME", input)
-        editor.commit()
-    }
-
-    fun getUserName(context: Context): String {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        return prefs.getString("MY_NAME", "").toString()
-    }
-
-    fun setUserSpeciality(context: Context, input: String) {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString("MY_SPECIALITY", input)
-        editor.commit()
-    }
-
-    fun getUserSpeciality(context: Context): String {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        return prefs.getString("MY_SPECIALITY", "").toString()
-    }
-
-    fun delete(context: Context) {
-        val prefs: SharedPreferences = context.getSharedPreferences(myAccount, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.clear()
-        editor.commit()
-    }
-
-
-}
