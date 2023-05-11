@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
@@ -23,8 +22,8 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        signIn()
         signUp()
+        autoSignIn()
 
         binding.root.setOnClickListener {
             hideKeyboard()
@@ -33,7 +32,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
 
-    private fun signIn() {
+    private fun signUp() {
 
         val resultLauncher: ActivityResultLauncher<Intent> =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -53,19 +52,29 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun signUp() {
+    private fun signIn() {
         binding.btnSigninLogin.setOnClickListener {
 
             if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
 
-                val intent = Intent(this, MyPageActivity::class.java)
+                SharedPreferences.MySharedPreferences.setUserId(
+                    this,
+                    binding.etSigninId.text.toString()
+                )
+                SharedPreferences.MySharedPreferences.setUserPw(
+                    this,
+                    binding.etSigninPw.text.toString()
+                )
+                SharedPreferences.MySharedPreferences.setUserName(this, name)
+                SharedPreferences.MySharedPreferences.setUserSpeciality(this, specialty)
 
-                Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
-                intent.putExtra("name", name)
-                intent.putExtra("specialty", specialty)
+                val intent = Intent(this, MainActivity::class.java)
+
+                binding.root.showSnackbar("로그인에 성공했습니다.")
+
                 startActivity(intent)
             } else {
-                Snackbar.make(binding.root, "로그인에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                binding.root.showSnackbar("로그인에 실패했습니다.")
             }
 
         }
@@ -84,4 +93,21 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun autoSignIn() {
+        if (SharedPreferences.MySharedPreferences.getUserId(this).isNullOrBlank()
+            || SharedPreferences.MySharedPreferences.getUserPw(this).isNullOrBlank()
+        ) {
+            signIn()
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+
+            binding.root.showToast("자동 로그인 되었습니다.")
+
+            startActivity(intent)
+            finish()
+        }
+    }
+
 }
+
