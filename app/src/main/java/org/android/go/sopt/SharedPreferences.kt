@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class SharedPreferences {
-
     object MySharedPreferences {
         private const val myAccount: String = "account"
         fun setUserId(context: Context, input: String) {
