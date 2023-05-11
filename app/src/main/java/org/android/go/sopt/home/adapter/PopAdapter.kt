@@ -14,6 +14,7 @@ import org.android.go.sopt.R
 import org.android.go.sopt.databinding.HeaderPopPlaylistBinding
 import org.android.go.sopt.databinding.ItemPopPlaylistBinding
 import org.android.go.sopt.home.data.Pop
+import org.android.go.sopt.showToast
 
 
 class PopAdapter(context: Context) :
@@ -72,7 +73,7 @@ class PopAdapter(context: Context) :
             binding.tvPopPlaylistSinger.text = data.singer
             binding.root.isActivated = tracker.isSelected(itemId)
             if (tracker.isSelected(bindingAdapterPosition.toLong())) {
-                binding.root.setBackgroundResource(R.color.purple_200)
+                binding.root.setBackgroundResource(R.color.yellow_300)
             } else {
                 binding.root.setBackgroundResource(R.color.white)
             }
@@ -94,7 +95,7 @@ class PopAdapter(context: Context) :
             binding.ivHeaderIcon.setImageDrawable(binding.root.context.getDrawable(data.image))
             binding.tvHeaderTitle.text = data.title
             if (tracker.isSelected(bindingAdapterPosition.toLong())) {
-
+                binding.root.showToast("Title")
             } else {
                 binding.root.setBackgroundResource(R.color.white)
             }
