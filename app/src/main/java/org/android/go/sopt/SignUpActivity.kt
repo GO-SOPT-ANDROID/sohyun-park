@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignUpBinding
 
 
@@ -35,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
                 && binding.etSignupName.text.isNotEmpty() && binding.etSignupSpecialty.text.isNotEmpty()
             ) {
 
-                Snackbar.make(binding.root, "회원가입이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                binding.root.showSnackbar("회원가입에 성공했습니다.")
 
                 intent.putExtra("id", binding.etSignupId.text.toString())
                 intent.putExtra("pw", binding.etSignupPw.text.toString())
@@ -44,7 +43,7 @@ class SignUpActivity : AppCompatActivity() {
                 setResult(RESULT_OK, intent)
                 finish()
             } else {
-                Snackbar.make(binding.root, "회원가입에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                binding.root.showSnackbar("회원가입에 실패했습니다.")
             }
 
         }

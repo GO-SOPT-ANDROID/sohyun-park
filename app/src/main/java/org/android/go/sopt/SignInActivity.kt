@@ -7,10 +7,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
@@ -67,11 +65,11 @@ class SignInActivity : AppCompatActivity() {
 
                 val intent = Intent(this, MainActivity::class.java)
 
-                Snackbar.make(binding.root, "로그인에 성공했습니다.", Snackbar.LENGTH_SHORT).show()
+                binding.root.showSnackbar("로그인에 성공했습니다.")
 
                 startActivity(intent)
             } else {
-                Snackbar.make(binding.root, "로그인에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                binding.root.showSnackbar("로그인에 실패했습니다.")
             }
 
         }
@@ -99,8 +97,7 @@ class SignInActivity : AppCompatActivity() {
         } else {
             val intent = Intent(this, MainActivity::class.java)
 
-            Snackbar.make(binding.root, "자동 로그인되었습니다.", Snackbar.LENGTH_SHORT).show()
-            Toast.makeText(this.applicationContext,"자동 로그인되었습니다.",Toast.LENGTH_SHORT).show()
+            binding.root.showToast("자동 로그인 되었습니다.")
 
             startActivity(intent)
             finish()
