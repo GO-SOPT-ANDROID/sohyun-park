@@ -7,19 +7,31 @@ import retrofit2.Retrofit
 
 object ApiFactory {
 
-    private const val BASE_URL = BuildConfig.AUTH_BASE_URL
+    private const val AUTH_BASE_URL = BuildConfig.AUTH_BASE_URL
+    private const val REQRES_BASE_URL = BuildConfig.REQRES_BASE_URL
 
-    val retrofit: Retrofit by lazy {
+    val authRetrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(AUTH_BASE_URL)
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 
-    inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
+    val reqresRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(REQRES_BASE_URL)
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
+    inline fun <reified T> authCreate(): T = authRetrofit.create<T>(T::class.java)
+
+    inline fun <reified T> reqresCreate(): T = reqresRetrofit.create<T>(T::class.java)
 }
 
 object ServicePool {
-    val signUpService = ApiFactory.create<SignUpService>()
-    val signInService = ApiFactory.create<SignInService>()
+    val signUpService = ApiFactory.authCreate<SignUpService>()
+    val signInService = ApiFactory.authCreate<SignInService>()
+    val listUsersService = ApiFactory.reqresCreate<ListUsersService>()
+
 }
