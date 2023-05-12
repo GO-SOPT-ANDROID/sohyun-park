@@ -21,4 +21,5 @@ object ApiFactory {
 
 object ServicePool {
     val signUpService = ApiFactory.create<SignUpService>()
+    val signInService = ApiFactory.create<SignInService>()
 }
