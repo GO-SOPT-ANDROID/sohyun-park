@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class User(
+    @SerialName("id")
+    val id: Int,
     @SerialName("email")
     val email: String,
     @SerialName("first_name")
