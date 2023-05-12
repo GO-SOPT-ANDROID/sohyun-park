@@ -2,40 +2,40 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:paddingVertical="30dp">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
-        tools:srcCompat="@tools:sample/avatars"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_user_email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_item_user_email"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tv_item_user_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="first name"
         android:textAppearance="?textAppearanceBodyLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="first name" />
 
     <TextView
         android:id="@+id/tv_item_user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        tools:text="email"
         android:textAppearance="?textAppearanceBodyMedium"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_user_first_name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_item_user_first_name"
+        tools:text="email" />
 </androidx.constraintlayout.widget.ConstraintLayout>
