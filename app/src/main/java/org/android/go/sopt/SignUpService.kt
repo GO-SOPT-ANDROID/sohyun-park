@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface SignUpService {
     @POST("sign-up")
-    fun login(
+    fun signUp(
         @Body request: RequestSignUpDto,
     ): Call<ResponseSignUpDto>
 }

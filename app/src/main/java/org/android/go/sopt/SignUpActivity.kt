@@ -48,38 +48,44 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun completeSignUp() {
-        signUpService.login(
-            with(binding) {
-                RequestSignUpDto(
-                    etSignupId.text.toString(),
-                    etSignupPw.text.toString(),
-                    etSignupName.text.toString(),
-                    etSignupSpecialty.text.toString()
-                )
-            }
-        ).enqueue(object : retrofit2.Callback<ResponseSignUpDto> {
-            override fun onResponse(
-                call: Call<ResponseSignUpDto>,
-                response: Response<ResponseSignUpDto>,
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.message?.let { binding.root.showToast(it) }
-                        ?: "회원가입에 성공했습니다."
-                    finish()
-
-                    if (!isFinishing) finish()
-                } else {
-                    // 응답 실패!
-                    response.body()?.message?.let { binding.root.showToast(it) }
-                        ?: "서버통신 실패(40X)"
+        binding.btnSignupComplete.setOnClickListener {
+            signUpService.signUp(
+                with(binding) {
+                    RequestSignUpDto(
+                        etSignupId.text.toString(),
+                        etSignupPw.text.toString(),
+                        etSignupName.text.toString(),
+                        etSignupSpecialty.text.toString()
+                    )
                 }
-            }
+            ).enqueue(object : retrofit2.Callback<ResponseSignUpDto> {
+                override fun onResponse(
+                    call: Call<ResponseSignUpDto>,
+                    response: Response<ResponseSignUpDto>,
+                ) {
+                    if (response.isSuccessful && canUserSignUp()) {
+                        response.body()?.message?.let { binding.root.showToast(it) }
+                            ?: "회원가입에 성공했습니다."
+                        finish()
 
-            override fun onFailure(call: Call<ResponseSignUpDto>, t: Throwable) {
-                // 왜 안 오지?!
-                t.message?.let { binding.root.showToast(it) } ?: "서버통신 실패(응답값 X)"
-            }
-        })
+                        if (!isFinishing) finish()
+                    } else if (!canUserSignUp()) {
+                        binding.root.showToast("회원가입에 실패했습니다.")
+                    } else {
+                        // 응답 실패!
+                        response.body()?.message?.let { binding.root.showToast(it) }
+                            ?: "서버통신 실패(40X)"
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseSignUpDto>, t: Throwable) {
+                    // 왜 안 오지?!
+                    t.message?.let { binding.root.showToast(it) } ?: "서버통신 실패(응답값 X)"
+                }
+            })
+
+        }
+
 
     }
 
