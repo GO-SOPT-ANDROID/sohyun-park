@@ -1,29 +1,29 @@
 package org.android.go.sopt
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import org.android.go.sopt.databinding.ActivitySignInBinding
+import retrofit2.Call
+import retrofit2.Response
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var id: String
-    private lateinit var pw: String
-    private lateinit var name: String
-    private lateinit var specialty: String
+    private val signInService = ServicePool.signInService
+    private lateinit var savedName: String
+    private lateinit var savedSpeciality: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        signUp()
+        clickSignUp()
         autoSignIn()
+        completeSignIn()
 
         binding.root.setOnClickListener {
             hideKeyboard()
@@ -32,51 +32,57 @@ class SignInActivity : AppCompatActivity() {
     }
 
 
-    private fun signUp() {
-
-        val resultLauncher: ActivityResultLauncher<Intent> =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    id = result.data?.getStringExtra("id") ?: ""
-                    pw = result.data?.getStringExtra("pw") ?: ""
-                    name = result.data?.getStringExtra("name") ?: ""
-                    specialty = result.data?.getStringExtra("specialty") ?: ""
-                }
-            }
+    private fun clickSignUp() {
 
         binding.btnSigninSignup.setOnClickListener {
 
-            val intent = Intent(this, SignUpActivity::class.java)
-            resultLauncher.launch(intent)
-
+            val signUpIntent = Intent(this, SignUpActivity::class.java)
+            startActivity(signUpIntent)
         }
     }
 
-    private fun signIn() {
+    private fun completeSignIn() {
+
+        val mainIntent = Intent(this, MainActivity::class.java)
+
         binding.btnSigninLogin.setOnClickListener {
+            signInService.signIn(
+                with(binding) {
+                    RequestSignInDto(
+                        etSigninId.text.toString(),
+                        etSigninPw.text.toString(),
+                    )
+                }
+            ).enqueue(object : retrofit2.Callback<ResponseSignInDto> {
+                override fun onResponse(
+                    call: Call<ResponseSignInDto>,
+                    response: Response<ResponseSignInDto>,
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.message?.let { binding.root.showToast(it) }
+                            ?: "로그인에 성공했습니다."
 
-            if (binding.etSigninId.text.toString() == id && binding.etSigninPw.text.toString() == pw) {
+                        response.body()?.data?.name?.let { savedName = it } ?: "정보 오류"
+                        response.body()?.data?.skill?.let { savedSpeciality = it } ?: "정보 오류"
+                        saveSignInData(savedName, savedSpeciality)
 
-                SharedPreferences.MySharedPreferences.setUserId(
-                    this,
-                    binding.etSigninId.text.toString()
-                )
-                SharedPreferences.MySharedPreferences.setUserPw(
-                    this,
-                    binding.etSigninPw.text.toString()
-                )
-                SharedPreferences.MySharedPreferences.setUserName(this, name)
-                SharedPreferences.MySharedPreferences.setUserSpeciality(this, specialty)
+                        startActivity(mainIntent)
 
-                val intent = Intent(this, MainActivity::class.java)
 
-                binding.root.showSnackbar("로그인에 성공했습니다.")
+                    } else {
+                        // 응답 실패!
+                        binding.root.showToast("로그인에 실패했습니다.")
+                        response.body()?.message?.let { binding.root.showToast(it) }
+                            ?: "서버통신 실패(40X)"
+                    }
+                }
 
-                startActivity(intent)
-            } else {
-                binding.root.showSnackbar("로그인에 실패했습니다.")
-            }
-
+                override fun onFailure(call: Call<ResponseSignInDto>, t: Throwable) {
+                    // 왜 안 오지?!
+                    binding.root.showToast("로그인에 실패했습니다.")
+                    t.message?.let { binding.root.showToast(it) } ?: "서버통신 실패(응답값 X)"
+                }
+            })
         }
 
     }
@@ -98,7 +104,7 @@ class SignInActivity : AppCompatActivity() {
         if (SharedPreferences.MySharedPreferences.getUserId(this).isNullOrBlank()
             || SharedPreferences.MySharedPreferences.getUserPw(this).isNullOrBlank()
         ) {
-            signIn()
+            completeSignIn()
         } else {
             val intent = Intent(this, MainActivity::class.java)
 
@@ -107,6 +113,21 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun saveSignInData(name: String, speciality: String) {
+
+        SharedPreferences.MySharedPreferences.setUserId(
+            this,
+            binding.etSigninId.text.toString()
+        )
+        SharedPreferences.MySharedPreferences.setUserPw(
+            this,
+            binding.etSigninPw.text.toString()
+        )
+        SharedPreferences.MySharedPreferences.setUserName(this, name)
+        SharedPreferences.MySharedPreferences.setUserSpeciality(this, speciality)
+
     }
 
 }
