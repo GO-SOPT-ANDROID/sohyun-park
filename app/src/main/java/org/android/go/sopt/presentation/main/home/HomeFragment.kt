@@ -1,4 +1,4 @@
-package org.android.go.sopt.home
+package org.android.go.sopt.presentation.main.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import org.android.go.sopt.databinding.FragmentHomeBinding
-import org.android.go.sopt.home.adapter.PopAdapter
-import org.android.go.sopt.home.data.HomeViewModel
+import org.android.go.sopt.presentation.main.home.adapter.PopAdapter
+import org.android.go.sopt.presentation.main.home.model.HomeViewModel
 
 
 class HomeFragment : Fragment() {

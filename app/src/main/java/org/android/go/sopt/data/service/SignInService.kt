@@ -1,5 +1,7 @@
-package org.android.go.sopt
+package org.android.go.sopt.data.service
 
+import org.android.go.sopt.data.dto.RequestSignInDto
+import org.android.go.sopt.data.dto.ResponseSignInDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

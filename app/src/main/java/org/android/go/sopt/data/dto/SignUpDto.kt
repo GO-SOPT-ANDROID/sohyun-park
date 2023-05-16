@@ -1,4 +1,4 @@
-package org.android.go.sopt
+package org.android.go.sopt.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

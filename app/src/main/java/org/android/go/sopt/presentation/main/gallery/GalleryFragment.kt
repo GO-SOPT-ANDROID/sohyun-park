@@ -1,4 +1,4 @@
-package org.android.go.sopt.home
+package org.android.go.sopt.presentation.main.gallery
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.android.go.sopt.R
 import org.android.go.sopt.databinding.FragmentGalleryBinding
-import org.android.go.sopt.home.adapter.GalleryAdapter
+import org.android.go.sopt.presentation.main.gallery.adapter.GalleryAdapter
 
 class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null

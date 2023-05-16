@@ -1,4 +1,4 @@
-package org.android.go.sopt.home.adapter
+package org.android.go.sopt.presentation.main.search.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.android.go.sopt.databinding.ItemUserBinding
-import org.android.go.sopt.home.ResponseListUsersDto
+import org.android.go.sopt.data.dto.ResponseListUsersDto
 
 class UserAdapter(context: Context) :
     ListAdapter<ResponseListUsersDto.ListUsersData, UserAdapter.UserItemViewHolder>(diffUtil) {

@@ -1,4 +1,4 @@
-package org.android.go.sopt.home
+package org.android.go.sopt.presentation.auth
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -9,8 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.android.go.sopt.SharedPreferences
-import org.android.go.sopt.SignInActivity
+import org.android.go.sopt.util.SharedPreferences
 import org.android.go.sopt.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment() {

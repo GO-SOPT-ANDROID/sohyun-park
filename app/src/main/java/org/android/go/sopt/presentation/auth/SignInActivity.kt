@@ -1,11 +1,17 @@
-package org.android.go.sopt
+package org.android.go.sopt.presentation.auth
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import org.android.go.sopt.*
+import org.android.go.sopt.data.dto.RequestSignInDto
+import org.android.go.sopt.data.dto.ResponseSignInDto
+import org.android.go.sopt.data.factory.ServicePool
 import org.android.go.sopt.databinding.ActivitySignInBinding
+import org.android.go.sopt.presentation.main.MainActivity
+import org.android.go.sopt.util.SharedPreferences
 import retrofit2.Call
 import retrofit2.Response
 

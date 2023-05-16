@@ -1,8 +1,7 @@
-package org.android.go.sopt.home.data
+package org.android.go.sopt.presentation.main.home.model
 
 import androidx.lifecycle.ViewModel
 import org.android.go.sopt.R
-import org.android.go.sopt.home.data.Pop
 
 class HomeViewModel : ViewModel() {
     val mockPopLists = listOf(

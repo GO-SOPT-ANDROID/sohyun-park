@@ -1,8 +1,12 @@
-package org.android.go.sopt
+package org.android.go.sopt.data.factory
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import org.android.go.sopt.BuildConfig
+import org.android.go.sopt.data.service.ListUsersService
+import org.android.go.sopt.data.service.SignInService
+import org.android.go.sopt.data.service.SignUpService
 import retrofit2.Retrofit
 
 object ApiFactory {

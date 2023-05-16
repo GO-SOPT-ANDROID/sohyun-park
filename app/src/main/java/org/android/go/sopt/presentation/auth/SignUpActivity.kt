@@ -1,10 +1,14 @@
-package org.android.go.sopt
+package org.android.go.sopt.presentation.auth
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import org.android.go.sopt.data.dto.RequestSignUpDto
+import org.android.go.sopt.data.dto.ResponseSignUpDto
+import org.android.go.sopt.data.factory.ServicePool
 import org.android.go.sopt.databinding.ActivitySignUpBinding
+import org.android.go.sopt.showToast
 import retrofit2.Call
 import retrofit2.Response
 

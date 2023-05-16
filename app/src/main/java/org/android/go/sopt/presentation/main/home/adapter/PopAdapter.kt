@@ -1,4 +1,4 @@
-package org.android.go.sopt.home.adapter
+package org.android.go.sopt.presentation.main.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.android.go.sopt.R
 import org.android.go.sopt.databinding.HeaderPopPlaylistBinding
 import org.android.go.sopt.databinding.ItemPopPlaylistBinding
-import org.android.go.sopt.home.data.Pop
+import org.android.go.sopt.presentation.main.home.model.Pop
 import org.android.go.sopt.showToast
 
 
