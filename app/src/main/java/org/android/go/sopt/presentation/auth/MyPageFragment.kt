@@ -1,4 +1,4 @@
-package org.android.go.sopt.home
+package org.android.go.sopt.presentation.auth
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -9,8 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.android.go.sopt.MySharedPreferences
-import org.android.go.sopt.SignInActivity
+import org.android.go.sopt.util.SharedPreferences
 import org.android.go.sopt.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment() {
@@ -43,9 +42,9 @@ class MyPageFragment : Fragment() {
 
     private fun setMyPage() {
 
-        binding.tvMyPageName.text = "이름 : ${MySharedPreferences.getUserName(requireContext())}"
+        binding.tvMyPageName.text = "이름 : ${SharedPreferences.MySharedPreferences.getUserName(requireContext())}"
         binding.tvMyPageSpecialty.text =
-            "특기 : ${MySharedPreferences.getUserSpeciality(requireContext())}"
+            "특기 : ${SharedPreferences.MySharedPreferences.getUserSpeciality(requireContext())}"
 
     }
 
@@ -56,7 +55,7 @@ class MyPageFragment : Fragment() {
             .setPositiveButton("Yes", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
                     Log.d("MyTag", "positive")
-                    MySharedPreferences.delete(requireContext())
+                    SharedPreferences.MySharedPreferences.delete(requireContext())
                     startActivity(Intent(requireContext(), SignInActivity::class.java))
                 }
             })

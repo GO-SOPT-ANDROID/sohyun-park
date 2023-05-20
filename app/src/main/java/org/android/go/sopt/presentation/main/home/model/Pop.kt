@@ -1,4 +1,4 @@
-package org.android.go.sopt.home.data
+package org.android.go.sopt.presentation.main.home.model
 
 import androidx.annotation.DrawableRes
 

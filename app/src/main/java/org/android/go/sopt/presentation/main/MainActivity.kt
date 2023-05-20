@@ -1,13 +1,14 @@
-package org.android.go.sopt
+package org.android.go.sopt.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import org.android.go.sopt.R
 import org.android.go.sopt.databinding.ActivityMainBinding
-import org.android.go.sopt.home.GalleryFragment
-import org.android.go.sopt.home.HomeFragment
-import org.android.go.sopt.home.MyPageFragment
-import org.android.go.sopt.home.SearchFragment
+import org.android.go.sopt.presentation.main.gallery.GalleryFragment
+import org.android.go.sopt.presentation.main.home.HomeFragment
+import org.android.go.sopt.presentation.auth.MyPageFragment
+import org.android.go.sopt.presentation.main.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
