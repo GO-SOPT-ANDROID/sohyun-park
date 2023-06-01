@@ -5,21 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.android.go.sopt.data.factory.ServicePool
+import androidx.fragment.app.viewModels
 import org.android.go.sopt.databinding.FragmentSearchBinding
-import org.android.go.sopt.data.dto.ResponseListUsersDto
-import org.android.go.sopt.presentation.main.search.adapter.UserAdapter
+import org.android.go.sopt.presentation.main.search.model.UserViewModel
 import org.android.go.sopt.util.showToast
-import retrofit2.Call
-import retrofit2.Response
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding: FragmentSearchBinding
-        get() = requireNotNull(_binding) { "앗! _binding이 null이다 !" }
-    private lateinit var adapter: UserAdapter
-    private val listUsersService = ServicePool.listUsersService
+        get() = requireNotNull(_binding) { "앗! _binding is null !" }
+    private val viewModel by viewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +24,7 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,39 +38,10 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun setAdapter(itemList: List<ResponseListUsersDto.ListUsersData>?) {
-        adapter = UserAdapter(requireContext())
-        binding.rvSearchUsers.adapter = adapter
-        adapter.submitList(itemList)
-
-    }
-
-
     private fun getUserList() {
-        listUsersService.listUsers().enqueue(
-            object : retrofit2.Callback<ResponseListUsersDto> {
-                override fun onResponse(
-                    call: Call<ResponseListUsersDto>,
-                    response: Response<ResponseListUsersDto>
-                ) {
-                    if (response.isSuccessful) {
-                        val itemList = response.body()?.data
-                        setAdapter(itemList)
-
-                    } else {
-                        // 응답 실패!
-                        binding.root.showToast("서버통신 실패(40X)")
-
-                    }
-
-                }
-
-                override fun onFailure(call: Call<ResponseListUsersDto>, t: Throwable) {
-                    binding.root.showToast("서버통신 실패(응답값 X)")
-                }
-            }
+        viewModel.getUserList(
+            binding.rvSearchUsers,
+            message = { str -> binding.root.showToast(str) }
         )
-
     }
-
 }
