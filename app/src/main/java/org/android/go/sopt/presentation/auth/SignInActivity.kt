@@ -4,23 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.android.go.sopt.R
-import org.android.go.sopt.data.dto.RequestSignInDto
 import org.android.go.sopt.data.dto.ResponseSignInDto
-import org.android.go.sopt.data.factory.ServicePool
 import org.android.go.sopt.databinding.ActivitySignInBinding
+import org.android.go.sopt.presentation.auth.model.SignInViewModel
 import org.android.go.sopt.presentation.main.MainActivity
 import org.android.go.sopt.util.SharedPreferences
-import org.android.go.sopt.util.showToast
-import retrofit2.Call
-import retrofit2.Response
+import org.android.go.sopt.util.toast
 
 class SignInActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySignInBinding
-    private val signInService = ServicePool.signInService
+    private lateinit var savedId: String
+    private lateinit var savedPw: String
     private lateinit var savedName: String
     private lateinit var savedSpeciality: String
+    private val viewModel by viewModels<SignInViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,116 +29,79 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        clickSignUp()
-        autoSignIn()
-        completeSignIn()
-
-        binding.root.setOnClickListener {
-            hideKeyboard()
-        }
+        setClickEventOnSignUpButton()
+        setClickEventOnSignInButton()
+        setClickEventBackground()
 
     }
 
+    private fun setClickEventBackground() {
+        binding.root.setOnClickListener { hideKeyboard() }
+    }
 
-    private fun clickSignUp() {
-
+    private fun setClickEventOnSignUpButton() {
         binding.btnSigninSignup.setOnClickListener {
-
             val signUpIntent = Intent(this, SignUpActivity::class.java)
             startActivity(signUpIntent)
             finish()
         }
     }
 
-    private fun completeSignIn() {
-
-        val mainIntent = Intent(this, MainActivity::class.java)
-
+    private fun setClickEventOnSignInButton() {
         binding.btnSigninLogin.setOnClickListener {
-            signInService.signIn(
-                with(binding) {
-                    RequestSignInDto(
-                        etSigninId.text.toString(),
-                        etSigninPw.text.toString(),
-                    )
-                }
-            ).enqueue(object : retrofit2.Callback<ResponseSignInDto> {
-                override fun onResponse(
-                    call: Call<ResponseSignInDto>,
-                    response: Response<ResponseSignInDto>,
-                ) {
-                    if (response.isSuccessful) {
-                        response.body()?.message?.let { binding.root.showToast(it) }
-                            ?: R.string.sign_in_success
-
-                        response.body()?.data?.name?.let { savedName = it }
-                            ?: R.string.information_fail
-                        response.body()?.data?.skill?.let { savedSpeciality = it }
-                            ?: R.string.information_fail
-                        saveSignInData(savedName, savedSpeciality)
-
-                        startActivity(mainIntent)
-
-
-                    } else {
-                        // 응답 실패!
-                        response.body()?.message?.let { binding.root.showToast(it) }
-                            ?: R.string.sign_in_fail.also { binding.root.showToast(it.toString()) }
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseSignInDto>, t: Throwable) {
-                    // 왜 안 오지?!
-                    t.message?.let { binding.root.showToast(it) }
-                        ?: R.string.sign_in_fail.also { binding.root.showToast(it.toString()) }
-                }
-            })
+            viewModel.signIn(
+                binding.etSigninId.text.toString(),
+                binding.etSigninPw.text.toString(),
+                message = { str -> toast(str) }
+            )
         }
 
+        viewModel.signInResult.observe(this) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            saveUserInfo(it.data)
+            autoSignIn()
+        }
     }
 
     private fun hideKeyboard() {
         if (this != null && this.currentFocus != null) {
-
             val inputManager: InputMethodManager =
                 this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(
-                this.currentFocus?.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
+                this.currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
     }
 
-
     private fun autoSignIn() {
-        if (SharedPreferences.MySharedPreferences.getUserId(this).isNullOrBlank()
-            || SharedPreferences.MySharedPreferences.getUserPw(this).isNullOrBlank()
+        if (SharedPreferences.MySharedPreferences.getUserId(this)
+                .isNullOrBlank() || SharedPreferences.MySharedPreferences.getUserPw(this)
+                .isNullOrBlank()
         ) {
-            completeSignIn()
+            setClickEventOnSignInButton()
         } else {
-            val intent = Intent(this, MainActivity::class.java)
-
-            binding.root.showToast(R.string.auto_sign_in_success.toString())
-
-            startActivity(intent)
+            toast(R.string.auto_sign_in_success.toString())
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
 
-    private fun saveSignInData(name: String, speciality: String) {
-
-        SharedPreferences.MySharedPreferences.setUserId(
-            this,
-            binding.etSigninId.text.toString()
-        )
-        SharedPreferences.MySharedPreferences.setUserPw(
-            this,
-            binding.etSigninPw.text.toString()
-        )
+    private fun saveSignInData(id: String, pw: String, name: String, speciality: String) {
+        SharedPreferences.MySharedPreferences.setUserId(this, id)
+        SharedPreferences.MySharedPreferences.setUserPw(this, pw)
         SharedPreferences.MySharedPreferences.setUserName(this, name)
         SharedPreferences.MySharedPreferences.setUserSpeciality(this, speciality)
+    }
 
+    private fun saveUserInfo(response: ResponseSignInDto.SignInData) {
+        response.id?.let { savedId = it }
+        response.skill?.let { savedPw = it }
+        response.name?.let { savedName = it }
+        response.skill?.let { savedSpeciality = it }
+        saveSignInData(savedId, savedPw, savedName, savedSpeciality)
     }
 
 }
+
 
