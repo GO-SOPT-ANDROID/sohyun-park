@@ -47,6 +47,6 @@ object ApiFactory {
 object ServicePool {
     val signUpService = ApiFactory.authCreate<SignUpService>()
     val signInService = ApiFactory.authCreate<SignInService>()
-    val listUsersService = ApiFactory.reqresCreate<ListUsersService>()
+    val getUsersListService = ApiFactory.reqresCreate<ListUsersService>()
 
 }

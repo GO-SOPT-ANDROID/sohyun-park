@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.android.go.sopt.databinding.ActivitySignUpBinding
 import org.android.go.sopt.presentation.auth.model.SignUpViewModel
-import org.android.go.sopt.util.toast
+import org.android.go.sopt.util.toastByString
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -39,7 +39,7 @@ class SignUpActivity : AppCompatActivity() {
                     binding.etSignupPw.text.toString(),
                     binding.etSignupName.text.toString(),
                     binding.etSignupSpecialty.text.toString(),
-                    message = { str -> toast(str) }
+                    message = { str -> toastByString(str) }
                 )
             }
         }

@@ -1,6 +1,5 @@
 package org.android.go.sopt.presentation.main.search.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -10,7 +9,7 @@ import org.android.go.sopt.data.dto.ResponseListUsersDto
 import org.android.go.sopt.databinding.ItemUserBinding
 import org.android.go.sopt.util.ItemDiffCallback
 
-class UserAdapter(context: Context) :
+class UserAdapter() :
     ListAdapter<ResponseListUsersDto.ListUsersData, UserAdapter.UserItemViewHolder>(ItemDiffCallback<ResponseListUsersDto.ListUsersData>(
         onContentsTheSame = { old, new -> old == new },
         onItemsTheSame = { old, new -> old == new }

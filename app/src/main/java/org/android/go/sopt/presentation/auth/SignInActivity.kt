@@ -12,7 +12,8 @@ import org.android.go.sopt.databinding.ActivitySignInBinding
 import org.android.go.sopt.presentation.auth.model.SignInViewModel
 import org.android.go.sopt.presentation.main.MainActivity
 import org.android.go.sopt.util.SharedPreferences
-import org.android.go.sopt.util.toast
+import org.android.go.sopt.util.toastByInt
+import org.android.go.sopt.util.toastByString
 
 class SignInActivity : AppCompatActivity() {
 
@@ -51,7 +52,7 @@ class SignInActivity : AppCompatActivity() {
             viewModel.signIn(
                 binding.etSigninId.text.toString(),
                 binding.etSigninPw.text.toString(),
-                message = { str -> toast(str) }
+                message = { str -> toastByString(str) }
             )
         }
 
@@ -79,7 +80,7 @@ class SignInActivity : AppCompatActivity() {
         ) {
             setClickEventOnSignInButton()
         } else {
-            toast(R.string.auto_sign_in_success.toString())
+            toastByInt(R.string.auto_sign_in_success)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
