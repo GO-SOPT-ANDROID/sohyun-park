@@ -1,11 +1,13 @@
 package org.android.go.sopt.data.factory
 
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.android.go.sopt.BuildConfig
+import org.android.go.sopt.data.App
 import org.android.go.sopt.data.service.ListUsersService
 import org.android.go.sopt.data.service.SignInService
 import org.android.go.sopt.data.service.SignUpService
@@ -20,7 +22,7 @@ object ApiFactory {
         OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level =
                 if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        }).build()
+        }).addNetworkInterceptor(FlipperOkhttpInterceptor(App.networkFlipperPlugin)).build()
     }
 
     val authRetrofit: Retrofit by lazy {
