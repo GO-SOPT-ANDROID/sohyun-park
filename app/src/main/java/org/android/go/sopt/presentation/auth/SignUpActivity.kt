@@ -1,14 +1,14 @@
 package org.android.go.sopt.presentation.auth
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import org.android.go.sopt.data.dto.RequestSignUpDto
 import org.android.go.sopt.data.dto.ResponseSignUpDto
 import org.android.go.sopt.data.factory.ServicePool
 import org.android.go.sopt.databinding.ActivitySignUpBinding
-import org.android.go.sopt.showToast
+import org.android.go.sopt.util.showToast
 import retrofit2.Call
 import retrofit2.Response
 
@@ -70,8 +70,6 @@ class SignUpActivity : AppCompatActivity() {
                     if (response.isSuccessful && canUserSignUp()) {
                         response.body()?.message?.let { binding.root.showToast(it) }
                             ?: "회원가입에 성공했습니다."
-                        finish()
-
                         if (!isFinishing) finish()
                     } else if (!canUserSignUp()) {
                         binding.root.showToast("회원가입에 실패했습니다.")

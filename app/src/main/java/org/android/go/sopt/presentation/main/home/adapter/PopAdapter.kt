@@ -7,18 +7,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.android.go.sopt.R
 import org.android.go.sopt.databinding.HeaderPopPlaylistBinding
 import org.android.go.sopt.databinding.ItemPopPlaylistBinding
 import org.android.go.sopt.presentation.main.home.model.Pop
-import org.android.go.sopt.showToast
+import org.android.go.sopt.util.ItemDiffCallback
+import org.android.go.sopt.util.showToast
 
 
 class PopAdapter(context: Context) :
-    ListAdapter<Pop, RecyclerView.ViewHolder>(diffUtil) {
+    ListAdapter<Pop, RecyclerView.ViewHolder>(
+        ItemDiffCallback<Pop>(onContentsTheSame = { old, new -> old == new },
+            onItemsTheSame = { old, new -> old == new })
+    ) {
     private lateinit var selectionTracker: SelectionTracker<Long>
 
     init {
@@ -142,16 +145,7 @@ class PopAdapter(context: Context) :
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Pop>() {
-            override fun areItemsTheSame(oldItem: Pop, newItem: Pop): Boolean {
-                return oldItem.id == newItem.id
-            }
 
-            override fun areContentsTheSame(oldItem: Pop, newItem: Pop): Boolean {
-                return oldItem == newItem
-            }
-
-        }
         const val HEADER = 0
         const val ITEM = 1
     }

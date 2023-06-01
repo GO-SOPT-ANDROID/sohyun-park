@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.android.go.sopt.*
 import org.android.go.sopt.data.factory.ServicePool
 import org.android.go.sopt.databinding.FragmentSearchBinding
 import org.android.go.sopt.data.dto.ResponseListUsersDto
 import org.android.go.sopt.presentation.main.search.adapter.UserAdapter
+import org.android.go.sopt.util.showToast
 import retrofit2.Call
 import retrofit2.Response
 
@@ -37,8 +37,8 @@ class SearchFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 
     private fun setAdapter(itemList: List<ResponseListUsersDto.ListUsersData>?) {
