@@ -30,9 +30,8 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setClickEventOnSignUpButton()
-        setClickEventOnSignInButton()
         setClickEventBackground()
-
+        autoSignIn()
     }
 
     private fun setClickEventBackground() {
@@ -60,7 +59,6 @@ class SignInActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
             saveUserInfo(it.data)
-            autoSignIn()
         }
     }
 
