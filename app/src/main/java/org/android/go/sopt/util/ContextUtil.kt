@@ -11,7 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-fun View.showSnackbar(message: String) {
+fun View.showSnackBar(message: String) {
     Snackbar.make(
         this, message, Snackbar.LENGTH_SHORT
     ).show()
@@ -21,6 +21,13 @@ fun View.showToast(message: String) {
     Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()
 }
 
+fun Context.toastByString(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.toastByInt(message: Int) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
 
 fun <ResponseType> Call<ResponseType>.enqueueUtil(
     onSuccess: (ResponseType) -> Unit,
@@ -52,6 +59,3 @@ class ItemDiffCallback<T : Any>(
         onContentsTheSame(oldItem, newItem)
 }
 
-fun Context.toast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-}
