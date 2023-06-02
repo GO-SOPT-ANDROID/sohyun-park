@@ -3,7 +3,10 @@ package org.android.go.sopt.util
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -49,7 +52,6 @@ fun <ResponseType> Call<ResponseType>.enqueueUtil(
     })
 }
 
-
 class ItemDiffCallback<T : Any>(
     val onItemsTheSame: (T, T) -> Boolean,
     val onContentsTheSame: (T, T) -> Boolean
@@ -59,3 +61,17 @@ class ItemDiffCallback<T : Any>(
         onContentsTheSame(oldItem, newItem)
 }
 
+fun <T> MediatorLiveData<T>.addSourceList(
+    vararg liveDataArgument: MutableLiveData<*>,
+    onChanged: () -> T
+) {
+    liveDataArgument.forEach {
+        this.addSource(it) { value = onChanged() }
+    }
+}
+
+fun View.hideKeyboard() {
+    val inputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+}
