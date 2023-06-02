@@ -1,9 +1,7 @@
 package org.android.go.sopt.presentation.auth
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.android.go.sopt.R
@@ -12,6 +10,7 @@ import org.android.go.sopt.databinding.ActivitySignInBinding
 import org.android.go.sopt.presentation.auth.model.SignInViewModel
 import org.android.go.sopt.presentation.main.MainActivity
 import org.android.go.sopt.util.SharedPreferences
+import org.android.go.sopt.util.hideKeyboard
 import org.android.go.sopt.util.toastByInt
 import org.android.go.sopt.util.toastByString
 
@@ -36,7 +35,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setClickEventBackground() {
-        binding.root.setOnClickListener { hideKeyboard() }
+        binding.root.setOnClickListener { if (this != null && this.currentFocus != null) binding.root.hideKeyboard() }
     }
 
     private fun setClickEventOnSignUpButton() {
@@ -60,16 +59,6 @@ class SignInActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
             saveUserInfo(it.data)
-        }
-    }
-
-    private fun hideKeyboard() {
-        if (this != null && this.currentFocus != null) {
-            val inputManager: InputMethodManager =
-                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(
-                this.currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
-            )
         }
     }
 
