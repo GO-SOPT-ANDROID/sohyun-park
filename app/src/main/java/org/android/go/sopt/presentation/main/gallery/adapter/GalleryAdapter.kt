@@ -1,19 +1,25 @@
 package org.android.go.sopt.presentation.main.gallery.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.android.go.sopt.databinding.ItemPagerBinding
+import org.android.go.sopt.presentation.main.gallery.model.Gallery
+import org.android.go.sopt.util.ItemDiffCallback
 
-class GalleryAdapter(_itemList: List<Int> = listOf()) :
-    RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
-    private var itemList: List<Int> = _itemList
+class GalleryAdapter(context: Context) :
+    ListAdapter<Gallery, GalleryAdapter.GalleryViewHolder>(
+        ItemDiffCallback<Gallery>(onContentsTheSame = { old, new -> old == new },
+            onItemsTheSame = { old, new -> old == new })
+    ) {
 
     class GalleryViewHolder(private val binding: ItemPagerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(src: Int) {
-            binding.ivItemPager.setImageResource(src)
+        fun bind(data: Gallery) {
+            binding.ivItemPager.setImageDrawable(binding.root.context.getDrawable(data.image))
         }
     }
 
@@ -24,15 +30,8 @@ class GalleryAdapter(_itemList: List<Int> = listOf()) :
 
 
     override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        holder.bind(currentList[position])
     }
 
-
-    override fun getItemCount() = itemList.size
-
-    fun setItemList(itemList: List<Int>) {
-        this.itemList = itemList
-        notifyDataSetChanged()
-    }
 
 }

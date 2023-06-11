@@ -10,13 +10,10 @@
         <item name="colorSecondaryVariant">@color/orange_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!--Neutral Key Color-->
-        <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/grey_800</item>
         <item name="colorSurface">@color/yellow_600</item>
-        <item name="colorOnSurface">@color/yellow_100</item>
         <item name="colorSurfaceVariant">@color/yellow_400</item>
         <item name="colorOnSurfaceInverse">@color/yellow_600</item>
-        <item name="colorOnSurfaceVariant">@color/yellow_50</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?android:colorBackground</item>
         <!-- Customize your theme here. -->

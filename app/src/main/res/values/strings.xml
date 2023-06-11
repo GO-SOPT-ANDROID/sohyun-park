@@ -12,7 +12,17 @@
     <string name="item_pop_playlist_title">Title</string>
     <string name="item_pop_playlist_singer">Singer</string>
     <string name="my_page_logout">Logout</string>
-
-
-
+    <string name="sign_in_fail">로그인에 실패했습니다.</string>
+    <string name="sign_in_success">로그인에 성공했습니다.</string>
+    <string name="auto_sign_in_success">자동 로그인에 성공했습니다.</string>
+    <string name="information_fail">정보 오류</string>
+    <string name="get_response">서버 통신 성공</string>
+    <string name="binding_null">앗! _binding is null !</string>
+    <string name="sign_up_id_hint">아이디를 입력하세요.</string>
+    <string name="sign_up_id_warning">조건: 영문, 숫자가 포함된 6~10글자</string>
+    <string name="sign_up_pw_hint">비밀번호를 입력하세요.</string>
+    <string name="sign_up_pw_warning">조건: 영문, 숫자, 특수 문자가 포함된 6~12글자</string>
+    <string name="sign_up_name_hint">이름을 입력하세요.</string>
+    <string name="sign_up_speciality_hint">이름을 입력하세요.</string>
+    <string name="sign_up_complete_button">회원가입 완료</string>
 </resources>

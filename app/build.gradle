@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
@@ -54,14 +55,39 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.fragment:fragment-ktx:1.5.3"
     implementation "androidx.activity:activity-ktx:1.6.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+
+    //RecyclerView-Selection
     implementation "androidx.recyclerview:recyclerview:1.2.0-rc01"
     implementation "androidx.recyclerview:recyclerview-selection:1.0.0"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+
+    //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+
+    //kotlinx-serialization: JSON 직렬화 및 역직렬화
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+
+    //Logging interceptor, Bom
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
+
+    //glide
     implementation 'com.github.bumptech.glide:glide:4.13.2'
+
+    //mobile app debugger
+    debugImplementation 'com.facebook.flipper:flipper:0.174.0'
+    debugImplementation 'com.facebook.soloader:soloader:0.10.4'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary2-plugin:0.162.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.174.0'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.174.0'
+
+    // coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
 }

@@ -1,96 +1,90 @@
 package org.android.go.sopt.presentation.auth
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
-import org.android.go.sopt.data.dto.RequestSignUpDto
-import org.android.go.sopt.data.dto.ResponseSignUpDto
-import org.android.go.sopt.data.factory.ServicePool
+import android.view.View
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import org.android.go.sopt.R
 import org.android.go.sopt.databinding.ActivitySignUpBinding
-import org.android.go.sopt.showToast
-import retrofit2.Call
-import retrofit2.Response
+import org.android.go.sopt.presentation.auth.model.SignUpViewModel
+import org.android.go.sopt.util.hideKeyboard
+import org.android.go.sopt.util.toastByString
 
 
 class SignUpActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySignUpBinding
-    private val signUpService = ServicePool.signUpService
+    private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        completeSignUp()
+        binding.viewModel = viewModel
 
-        binding.root.setOnClickListener {
-            hideKeyboard()
-        }
-
+        setOnClickEventCompleteButton()
+        setClickEventBackground()
+        setSignUpValidation()
+        observe()
     }
 
-
-    private fun hideKeyboard() {
-        if (this != null && this.currentFocus != null) {
-
-            val inputManager: InputMethodManager =
-                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(
-                this.currentFocus?.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
-            )
-        }
+    private fun setClickEventBackground() {
+        binding.root.setOnClickListener { if (this != null && this.currentFocus != null) binding.root.hideKeyboard() }
     }
 
-    private fun canUserSignUp(): Boolean {
-        return binding.etSignupId.text.length in 6..10
-                && binding.etSignupPw.text.length in 8..12
-                && binding.etSignupName.text.isNotBlank()
-                && binding.etSignupSpecialty.text.isNotBlank()
-    }
-
-
-    private fun completeSignUp() {
+    private fun setOnClickEventCompleteButton() {
         binding.btnSignupComplete.setOnClickListener {
-            signUpService.signUp(
-                with(binding) {
-                    RequestSignUpDto(
-                        etSignupId.text.toString(),
-                        etSignupPw.text.toString(),
-                        etSignupName.text.toString(),
-                        etSignupSpecialty.text.toString()
-                    )
-                }
-            ).enqueue(object : retrofit2.Callback<ResponseSignUpDto> {
-                override fun onResponse(
-                    call: Call<ResponseSignUpDto>,
-                    response: Response<ResponseSignUpDto>,
-                ) {
-                    if (response.isSuccessful && canUserSignUp()) {
-                        response.body()?.message?.let { binding.root.showToast(it) }
-                            ?: "회원가입에 성공했습니다."
-                        finish()
+            if (viewModel.checkSignUpValidation()) {
+                viewModel.signUp(
+                    binding.etSignupId.text.toString(),
+                    binding.etSignupPw.text.toString(),
+                    binding.etSignupName.text.toString(),
+                    binding.etSignupSpecialty.text.toString(),
+                    message = { str -> toastByString(str) }
+                )
+            }
+        }
+    }
 
-                        if (!isFinishing) finish()
-                    } else if (!canUserSignUp()) {
-                        binding.root.showToast("회원가입에 실패했습니다.")
-                    } else {
-                        // 응답 실패!
-                        response.body()?.message?.let { binding.root.showToast(it) }
-                            ?: "서버통신 실패(40X)"
-                    }
-                }
+    private fun setSignUpValidation() {
+        binding.btnSignupComplete.isEnabled = viewModel.checkSignUpValidation()
+    }
 
-                override fun onFailure(call: Call<ResponseSignUpDto>, t: Throwable) {
-                    // 왜 안 오지?!
-                    t.message?.let { binding.root.showToast(it) } ?: "서버통신 실패(응답값 X)"
-                }
-            })
-
+    private fun observe() {
+        viewModel.signUpResult.observe(this) {
+            startActivity(Intent(this, SignInActivity::class.java))
+            finish()
         }
 
+        viewModel.id.observe(this) {
+            with(binding) {
+                if (viewModel!!.checkIdFormation()) {
+                    tvSignUpIdWaring.visibility = View.INVISIBLE
+                    etSignupId.setBackgroundResource(R.drawable.rectangle_grey_500_radius_8)
+                } else {
+                    tvSignUpIdWaring.visibility = View.VISIBLE
+                    etSignupId.setBackgroundResource(R.drawable.rectangle_red_500_radius_8)
+                }
+            }
+        }
 
+        viewModel.pw.observe(this) {
+            with(binding) {
+                if (viewModel!!.checkPwFormation()) {
+                    tvSignUpPwWaring.visibility = View.INVISIBLE
+                    etSignupPw.setBackgroundResource(R.drawable.rectangle_grey_500_radius_8)
+                } else {
+                    tvSignUpPwWaring.visibility = View.VISIBLE
+                    etSignupPw.setBackgroundResource(R.drawable.rectangle_red_500_radius_8)
+                }
+            }
+        }
+
+        viewModel.isEnabledSignUpButton.observe(this) {
+            binding.btnSignupComplete.isEnabled = it
+        }
     }
 
 }
